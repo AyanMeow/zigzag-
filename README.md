@@ -16,7 +16,28 @@
 ![image](image/zigzag.png)
 ![image](image/afteridct.png)
 
-#预处理实现
+# 预处理实现
 数值化：先用map函数对字符型数据转化为连续数值型数据，再使用onehotencoder进行独热编码，没有使用tf.one_hot的原因是训练的10%数据中，并不完全包含所有特征，可能导致训练出现偏差，同时将标签转化为2分类（normal：0，abnormal：1）；
 标准化：直接用map应用sklearn.preprocessing的scale函数；
-量化：apply(lambda x: (x-np.min(x))/(np.max(x)-np.min(x))*255 )，对每列（每个特征）应用
+量化：apply(lambda x: (x-np.min(x))/(np.max(x)-np.min(x))*255 )，对每列（每个特征）应用；
+zigzag编码：详见代码；
+idct：使用cv2的函数idct，注意需要先对zigzag_code的结果进行flatten；
+结果可以输出为图片保存本地，训练时再读取图片集，但这样做的效率太低，所以改为保存为csv格式，训练时先读取，再reshape成[16,16,1]（灰度图）的形式；
+
+# 训练
+cnn采用自己搭建的结构，但部分按照原文所述：两个卷积层+maxpooling，一个flatten层和三个全连接层，最后跟一个softmax分类器
+为避免过拟合，添加了dropout层
+具体结构如下：
+![image](image/network_summary.png)
+
+原文一共训练了2000个epoch，因为时间原因，这里只训练了200个epoch，但依旧取得了不错的效果
+
+# 训练及测试效果
+## acc：
+![image](image/acc.png)
+## loss:
+![image](image/loss.png)
+## precision:
+![image](image/pre.png)
+## recall:
+![image](image/recall.png)
