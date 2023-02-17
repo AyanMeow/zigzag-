@@ -41,3 +41,5 @@ cnn采用自己搭建的结构，但部分按照原文所述：两个卷积层+m
 ![image](image/pre.png)
 ## recall:
 ![image](image/recall.png)
+##test
+![image](image/test.png)
