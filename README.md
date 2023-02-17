@@ -17,7 +17,7 @@
 ![image](image/afteridct.png)
 
 # 预处理实现
-数值化：先用map函数对字符型数据转化为连续数值型数据，再使用onehotencoder进行独热编码，没有使用tf.one_hot的原因是训练的10%数据中，并不完全包含所有特征，可能导致训练出现偏差，同时将标签转化为2分类（normal：0，abnormal：1）；  
+数值化：先用map函数对字符型数据转化为连续数值型数据，再使用onehotencoder进行独热编码，没有使用tf.one_hot的原因是训练的10%数据中，并不完全包含所有特征，可能导致训练出现偏差，同时将标签转化为2分类（normal：0，abnormal：1）；    
 标准化：直接用map应用sklearn.preprocessing的scale函数；  
 量化：apply(lambda x: (x-np.min(x))/(np.max(x)-np.min(x))*255 )，对每列（每个特征）应用；  
 zigzag编码：详见代码；  
